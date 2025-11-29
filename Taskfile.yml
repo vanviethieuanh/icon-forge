@@ -1,0 +1,104 @@
+version: "3"
+
+vars:
+  CACHE_DIR: "./.local"
+  PROVIDER_NAME: "lucide"
+  REPO_URL: "https://github.com/lucide-icons/lucide.git"
+  ICONS_DIR: "icons"
+
+tasks:
+  default:
+    cmds:
+      - task: clone
+      - task: pull
+
+      - task: init
+      - task: install
+      - task: copy-index
+      - task: gen-icons
+
+      - task: generate
+      - task: clean
+      - task: build
+
+  clone:
+    internal: true
+    cmds:
+      - mkdir -p {{ .CACHE_DIR }}
+      - echo "Cloning {{ .PROVIDER_NAME }}..."
+      - git clone "{{ .REPO_URL }}" "{{ .CACHE_DIR }}/{{ .PROVIDER_NAME }}"
+    status:
+      - test -d "{{ .CACHE_DIR }}/{{ .PROVIDER_NAME }}/.git"
+
+  pull:
+    internal: true
+    cmds:
+      - echo "Pulling latest changes for {{ .PROVIDER_NAME }}..."
+      - git -C "{{ .CACHE_DIR }}/{{ .PROVIDER_NAME }}" pull
+
+  init:
+    dir: build/{{.PROVIDER_NAME}}_icons
+    cmd: go mod init github.com/vanviethieuanh/{{.PROVIDER_NAME}}_icons
+    status:
+      - test -f go.mod
+
+  install:
+    dir: build/{{.PROVIDER_NAME}}_icons
+    sources:
+      - go.mod
+    cmd:
+      for:
+        - github.com/a-h/templ
+      cmd: go get {{.ITEM}}
+
+  copy-index:
+    sources:
+      - templates/icons.go
+    env:
+      PKG_NAME: "{{.PROVIDER_NAME}}_icons"
+    cmds:
+      - for: sources
+        cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}_icons/$(basename {{.ITEM}})
+
+  generate:
+    dir: build/{{.PROVIDER_NAME}}_icons
+    cmd: templ generate .
+
+  gen-icon:
+    vars:
+      IN: ".local/{{.PROVIDER_NAME}}/{{.ICONS_DIR}}/{{.NAME}}.svg"
+      OUT: "build/{{.PROVIDER_NAME}}_icons"
+      ICON_FILE:
+        sh: echo "{{.NAME}}" | sed 's/-/_/g'
+    env:
+      ICON_NAME:
+        sh: echo "{{.NAME}}" | sed -r 's/(^|-)([a-z0-9])/\U\2/g'
+      SVG:
+        sh: cat {{.IN}}
+    cmds:
+      - echo "{{.IN}} -> {{.OUT}}"
+      - gomplate -f templates/template.txt -o {{.OUT}}/{{.ICON_FILE}}.templ
+
+  gen-icons:
+    vars:
+      FILES:
+        sh: >
+          find {{ .CACHE_DIR }}/{{ .PROVIDER_NAME }}/{{.ICONS_DIR}} 
+          -maxdepth 1
+          -name '*.svg' | sort
+    deps:
+      - for: { var: FILES }
+        task: gen-icon
+        vars:
+          NAME:
+            sh: basename {{.ITEM}} .svg
+
+  clean:
+    cmds:
+      - rm build/{{.PROVIDER_NAME}}_icons/*.templ
+
+  build:
+    dir: build/{{.PROVIDER_NAME}}_icons
+    cmds:
+      - go mod tidy
+      - go build

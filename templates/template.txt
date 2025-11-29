@@ -1,0 +1,11 @@
+package lucide_icons
+
+templ {{ .Env.ICON_NAME }}(props ...Props) {
+    {{ "{{" }} p := GetOrDefaults(props...) {{ "}}" }}
+    {{ 
+        .Env.SVG
+        | regexp.Replace `\s+width="\d+"` ` width={ p.Size }`
+        | regexp.Replace `\s+height="\d+"` ` height={ p.Size }`
+        | regexp.Replace `\s+stroke-width="\d+"` ` stroke-width={ p.StrokeWidth }`
+    }}
+}

@@ -5,6 +5,7 @@ vars:
   PROVIDER_NAME: "lucide"
   REPO_URL: "https://github.com/lucide-icons/lucide.git"
   ICONS_DIR: "icons"
+  GENERATED_REPO_URL: "https://github.com/vanviethieuanh/lucide-templ.git"
 
 tasks:
   default:
@@ -38,14 +39,14 @@ tasks:
 
   init:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}_icons
-    cmd: go mod init github.com/vanviethieuanh/{{.PROVIDER_NAME}}_icons
+    dir: build/{{.PROVIDER_NAME}}-templ
+    cmd: go mod init github.com/vanviethieuanh/{{.PROVIDER_NAME}}_templ
     status:
       - test -f go.mod
 
   install:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}_icons
+    dir: build/{{.PROVIDER_NAME}}-templ
     sources:
       - go.mod
     cmd:
@@ -58,21 +59,21 @@ tasks:
     sources:
       - templates/icons.go
     env:
-      PKG_NAME: "{{.PROVIDER_NAME}}_icons"
+      PKG_NAME: "{{.PROVIDER_NAME}}_templ"
     cmds:
       - for: sources
-        cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}_icons/$(basename {{.ITEM}})
+        cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}-templ/$(basename {{.ITEM}})
 
   generate:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}_icons
+    dir: build/{{.PROVIDER_NAME}}-templ
     cmd: templ generate .
 
   gen-icon:
     # internal: true
     vars:
       IN: ".local/{{.PROVIDER_NAME}}/{{.ICONS_DIR}}/{{.NAME}}.svg"
-      OUT: "build/{{.PROVIDER_NAME}}_icons"
+      OUT: "build/{{.PROVIDER_NAME}}-templ"
       ICON_FILE:
         sh: echo "{{.NAME}}" | sed 's/-/_/g'
     env:
@@ -80,6 +81,7 @@ tasks:
         sh: echo "{{.NAME}}" | sed -r 's/(^|-)([a-z0-9])/\U\2/g'
       SVG:
         sh: cat {{.IN}}
+      PKG_NAME: "{{.PROVIDER_NAME}}_templ"
     cmds:
       - echo "{{.IN}} -> {{.OUT}}"
       - gomplate -f templates/template.txt -o {{.OUT}}/{{.ICON_FILE}}.templ
@@ -106,11 +108,11 @@ tasks:
   clean:
     internal: true
     cmds:
-      - rm build/{{.PROVIDER_NAME}}_icons/*.templ
+      - rm build/{{.PROVIDER_NAME}}-templ/*.templ
 
   build:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}_icons
+    dir: build/{{.PROVIDER_NAME}}-templ
     cmds:
       - go mod tidy
       - go build

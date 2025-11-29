@@ -1,4 +1,4 @@
-package lucide_icons
+package {{ .Env.PKG_NAME }}
 
 templ {{ .Env.ICON_NAME }}(props ...Props) {
     {{ "{{" }} p := GetOrDefaults(props...) {{ "}}" }}

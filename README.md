@@ -5,6 +5,11 @@ from SVG icon packs (e.g., Lucide, Feather).
 Each icon pack has its own Taskfile configuration and then call
 the main Taskfile for cloning, generating, and building Go modules.
 
+## Created packages
+
+* [Lucide Icons](https://lucide.dev/): `go get github.com/vanviethieuanh/lucide-templ`
+* [Feather Icons](https://feathericons.com/): `go get github.com/vanviethieuanh/feather-templ`
+
 ## Usage
 
 1. Clone this repository.
@@ -45,8 +50,3 @@ an example
 2. Add or improve Taskfiles for icon packs.
 3. Test to generate repo and test it locally.
 4. Submit a pull request.
-
-## Created packages
-
-* [Lucide Icons](https://lucide.dev/): `https://github.com/vanviethieuanh/lucide-templ`
-* [Feather Icons](https://feathericons.com/): `https://github.com/vanviethieuanh/feather-templ`

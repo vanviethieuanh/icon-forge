@@ -37,12 +37,14 @@ tasks:
       - git -C "{{ .CACHE_DIR }}/{{ .PROVIDER_NAME }}" pull
 
   init:
+    internal: true
     dir: build/{{.PROVIDER_NAME}}_icons
     cmd: go mod init github.com/vanviethieuanh/{{.PROVIDER_NAME}}_icons
     status:
       - test -f go.mod
 
   install:
+    internal: true
     dir: build/{{.PROVIDER_NAME}}_icons
     sources:
       - go.mod
@@ -52,6 +54,7 @@ tasks:
       cmd: go get {{.ITEM}}
 
   copy-index:
+    internal: true
     sources:
       - templates/icons.go
     env:
@@ -61,10 +64,12 @@ tasks:
         cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}_icons/$(basename {{.ITEM}})
 
   generate:
+    internal: true
     dir: build/{{.PROVIDER_NAME}}_icons
     cmd: templ generate .
 
   gen-icon:
+    internal: true
     vars:
       IN: ".local/{{.PROVIDER_NAME}}/{{.ICONS_DIR}}/{{.NAME}}.svg"
       OUT: "build/{{.PROVIDER_NAME}}_icons"
@@ -80,6 +85,7 @@ tasks:
       - gomplate -f templates/template.txt -o {{.OUT}}/{{.ICON_FILE}}.templ
 
   gen-icons:
+    internal: true
     vars:
       FILES:
         sh: >
@@ -94,10 +100,12 @@ tasks:
             sh: basename {{.ITEM}} .svg
 
   clean:
+    internal: true
     cmds:
       - rm build/{{.PROVIDER_NAME}}_icons/*.templ
 
   build:
+    internal: true
     dir: build/{{.PROVIDER_NAME}}_icons
     cmds:
       - go mod tidy

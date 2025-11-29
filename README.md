@@ -17,15 +17,15 @@ the main Taskfile for cloning, generating, and building Go modules.
 
 3. Generated Go module will be in `build/<provider>-templ`. Use it in your projects:
 
-```go
-import "github.com/vanviethieuanh/lucide_templ"
+    ```go
+    import "github.com/vanviethieuanh/lucide_templ"
 
-// I created this under above repo.
-templ SomeBiggerComponent(){
-    @lucide_templ.ChevronFirst()
-    @lucide_templ.X(lucide_templ.Props{Size: 20, StrokeWidth: 2})
-}
-```
+    // I created this under above repo.
+    templ SomeBiggerComponent(){
+        @lucide_templ.ChevronFirst()
+        @lucide_templ.X(lucide_templ.Props{Size: 20, StrokeWidth: 2})
+    }
+    ```
 
 ## Add a new icon pack
 

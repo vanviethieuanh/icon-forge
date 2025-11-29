@@ -7,5 +7,5 @@ tasks:
       PROVIDER_NAME="lucide"
       REPO_URL="https://github.com/lucide-icons/lucide.git"
       ICONS_DIR="icons"
-      GENERATED_REPO_URL="https://github.com/vanviethieuanh/lucide-templ.git"
+      USERNAME="vanviethieuanh"
       go-task

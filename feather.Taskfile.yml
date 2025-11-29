@@ -7,5 +7,5 @@ tasks:
       PROVIDER_NAME="feather"
       REPO_URL="https://github.com/feathericons/feather"
       ICONS_DIR="icons"
-      GENERATED_REPO_URL="https://github.com/vanviethieuanh/feather-templ.git"
+      USERNAME="vanviethieuanh"
       go-task

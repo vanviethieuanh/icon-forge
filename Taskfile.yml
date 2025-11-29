@@ -33,7 +33,7 @@ tasks:
   init:
     internal: true
     dir: build/{{.PROVIDER_NAME}}-templ
-    cmd: go mod init github.com/vanviethieuanh/{{.PROVIDER_NAME}}_templ
+    cmd: go mod init github.com/{{.USERNAME}}/{{.PROVIDER_NAME}}_templ
     status:
       - test -f go.mod
 

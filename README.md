@@ -10,6 +10,10 @@ the main Taskfile for cloning, generating, and building Go modules.
 * [Lucide Icons](https://lucide.dev/): `go get github.com/vanviethieuanh/lucide-templ`
 * [Feather Icons](https://feathericons.com/): `go get github.com/vanviethieuanh/feather-templ`
 
+## Prerequisites
+
+Please make sure you have [go-task](https://taskfile.dev/docs/installation) and [gomplate](https://docs.gomplate.ca/installing/)
+
 ## Usage
 
 1. Clone this repository.

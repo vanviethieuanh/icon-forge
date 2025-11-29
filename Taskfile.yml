@@ -49,12 +49,11 @@ tasks:
 
   copy-index:
     internal: true
-    sources:
-      - templates/icons.go
     env:
       PKG_NAME: "{{.PROVIDER_NAME}}_templ"
     cmds:
-      - for: sources
+      - for:
+          - templates/icons.go
         cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}-templ/$(basename {{.ITEM}})
 
   generate:

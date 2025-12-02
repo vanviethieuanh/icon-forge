@@ -33,14 +33,14 @@ tasks:
 
   init:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}-templ
+    dir: build/{{.PROVIDER_NAME}}-templ/mod
     cmd: go mod init github.com/{{.USERNAME}}/{{.PROVIDER_NAME}}_templ
     status:
       - test -f go.mod
 
   install:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}-templ
+    dir: build/{{.PROVIDER_NAME}}-templ/mod
     sources:
       - go.mod
     cmd:
@@ -55,7 +55,7 @@ tasks:
     cmds:
       - for:
           - templates/icons.go
-        cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}-templ/$(basename {{.ITEM}})
+        cmd: gomplate -f {{ .ITEM }} -o build/{{.PROVIDER_NAME}}-templ/mod/$(basename {{.ITEM}})
 
   generate:
     internal: true
@@ -77,7 +77,7 @@ tasks:
       PKG_NAME: "{{.PROVIDER_NAME}}_templ"
     cmds:
       - echo "{{.IN}} -> {{.OUT}}"
-      - gomplate -f templates/template.txt -o {{.OUT}}/{{.ICON_FILE}}.templ
+      - gomplate -f templates/template.txt -o {{.OUT}}/mod/{{.ICON_FILE}}.templ
 
   gen-icons:
     internal: true
@@ -117,11 +117,11 @@ tasks:
   clean:
     internal: true
     cmds:
-      - rm build/{{.PROVIDER_NAME}}-templ/*.templ
+      - rm build/{{.PROVIDER_NAME}}-templ/mod/*.templ
 
   build:
     internal: true
-    dir: build/{{.PROVIDER_NAME}}-templ
+    dir: build/{{.PROVIDER_NAME}}-templ/mod
     cmds:
       - go mod tidy
       - go build

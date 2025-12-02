@@ -54,3 +54,10 @@ an example
 2. Add or improve Taskfiles for icon packs.
 3. Test to generate repo and test it locally.
 4. Submit a pull request.
+
+### Todo
+
+[ ] Auto branching generated repository based on the templ version.
+[ ] Auto tagging commits of generated repository based on format `<icon-pack-version>-templ-<templ-version>`
+[ ] Publishing target repo to allow searching by go list
+[ ] Build a pipeline to automatically start generation

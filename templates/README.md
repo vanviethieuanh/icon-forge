@@ -3,7 +3,7 @@
 [![release](https://img.shields.io/github/release/{{ .Env.ICON_REPO }})](https://github.com/{{ .Env.ICON_REPO }}/releases)
 [![LICENSE](https://img.shields.io/badge/LICENCE-GPL3-red?style=flat)](./LICENSE)
 
-This module provides all **{{.Env.ICON_NAME}}** icons as [templ](https://templ.guide) components.  
+This module provides all **{{.Env.ICON_NAME}}** icons as [templ](https://templ.guide) components.
 Icons are generated automatically using [icon-forge](https://github.com/vanviethieuanh/icon-forge).
 
 ## Versioning
